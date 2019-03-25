@@ -14,8 +14,14 @@ public class MatrixHandlerTest {
 
     @BeforeTest
     public void setMatrix() {
-        double[][] arr1 = {{0, 3, 7}, {1, 4, 3}, {-1, 3, 0}};
-        double[][] arr2 = {{-1, 3, 0}, {1, 4, 3}, {0, 3, 7}};
+        double[][] arr1 = {
+                {0, 3, 7},
+                {1, 4, 3},
+                {-1, 3, 0}};
+        double[][] arr2 = {
+                {-1, 3, 0},
+                {1, 4, 3},
+                {0, 3, 7}};
         matrix1 = new Matrix(arr1);
         matrix2 = new Matrix(null);
         matrix3 = new Matrix(arr2);
@@ -97,15 +103,15 @@ public class MatrixHandlerTest {
 
     @Test
     public void replaceRowsTest() {
-        double[][] expected1 = matrix3.getArr();
+        double[][] expected1 = matrix3.getMatrix();
         MatrixHandler.replaceRows(matrix1, 0, 2);
-        double[][] actual1 = matrix1.getArr();
+        double[][] actual1 = matrix1.getMatrix();
 
         boolean result1 = Arrays.deepEquals(expected1, actual1);
 
-        double[][] expected2 = matrix3.getArr();
+        double[][] expected2 = matrix3.getMatrix();
         MatrixHandler.replaceRows(matrix1, 0, 1);
-        double[][] actual2 = matrix1.getArr();
+        double[][] actual2 = matrix1.getMatrix();
 
         boolean result2 = Arrays.deepEquals(expected2, actual2);
 

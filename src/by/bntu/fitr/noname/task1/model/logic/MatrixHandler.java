@@ -5,50 +5,41 @@ import by.bntu.fitr.noname.task1.util.UserInput;
 
 public class MatrixHandler {
     public static void fill(Matrix matrix) {
-        if (matrix == null || matrix.getArr() == null) {
-            return;
-        }
-
-        double arr[][] = matrix.getArr();
-
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[0].length; j++) {
-                System.out.print("Enter elem [" + i + "][" + j + "]: ");
-                arr[i][j] = UserInput.inputDouble();
+        if (matrix != null && matrix.getMatrix() != null) {
+            for (int i = 0; i < matrix.getRowCount(); i++) {
+                for (int j = 0; j < matrix.getColumnCount(); j++) {
+                    System.out.print("Enter elem [" + i + "][" + j + "]: ");
+                    matrix.getMatrix()[i][j] = UserInput.inputDouble();
+                }
             }
         }
     }
 
     public static void print(Matrix matrix) {
-        if (matrix == null || matrix.getArr() == null) {
-            return;
-        }
-
-        double arr[][] = matrix.getArr();
-
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[0].length; j++) {
-                System.out.print(arr[i][j] + " ");
+        if (matrix != null && matrix.getMatrix() != null) {
+            for (int i = 0; i < matrix.getRowCount(); i++) {
+                for (int j = 0; j < matrix.getColumnCount(); j++) {
+                    System.out.print(matrix.getMatrix()[i][j] + " ");
+                }
+                System.out.print('\n');
             }
             System.out.print('\n');
         }
-        System.out.print('\n');
     }
 
     public static int findRowWithMaxElem(Matrix matrix) {
-        if (matrix == null || matrix.getArr() == null) {
-            return -1;
-        }
+        int iMax = -1;
 
-        double arr[][] = matrix.getArr();
-        double max = arr[0][0];
-        int iMax = 0;
+        if (matrix != null && matrix.getMatrix() != null) {
+            double max = matrix.getElement(0, 0);
+            iMax = 0;
 
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[0].length; j++) {
-                if (arr[i][j] > max) {
-                    max = arr[i][j];
-                    iMax = i;
+            for (int i = 0; i < matrix.getRowCount(); i++) {
+                for (int j = 0; j < matrix.getColumnCount(); j++) {
+                    if (matrix.getMatrix()[i][j] > max) {
+                        max = matrix.getMatrix()[i][j];
+                        iMax = i;
+                    }
                 }
             }
         }
@@ -56,19 +47,18 @@ public class MatrixHandler {
     }
 
     public static int findRowWithMinElem(Matrix matrix) {
-        if (matrix == null || matrix.getArr() == null) {
-            return -1;
-        }
+        int iMin = -1;
 
-        double arr[][] = matrix.getArr();
-        double min = arr[0][0];
-        int iMin = 0;
+        if (matrix != null && matrix.getMatrix() != null) {
+            double min = matrix.getElement(0, 0);
+            iMin = 0;
 
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[0].length; j++) {
-                if (arr[i][j] < min) {
-                    min = arr[i][j];
-                    iMin = i;
+            for (int i = 0; i < matrix.getRowCount(); i++) {
+                for (int j = 0; j < matrix.getColumnCount(); j++) {
+                    if (matrix.getMatrix()[i][j] < min) {
+                        min = matrix.getMatrix()[i][j];
+                        iMin = i;
+                    }
                 }
             }
         }
@@ -76,85 +66,63 @@ public class MatrixHandler {
     }
 
     public static void replaceRows(Matrix matrix, int a, int b) {
-        if (matrix == null || matrix.getArr() == null) {
-            return;
+        if (matrix != null && matrix.getMatrix() != null) {
+            if (!(a == b) && (a >= 0 && b >= 0)) {
+                double[] temp = matrix.getMatrix()[a];
+                matrix.getMatrix()[a] = matrix.getMatrix()[b];
+                matrix.getMatrix()[b] = temp;
+            }
         }
-
-        if (a < 0 || b < 0) {
-            return;
-        }
-
-        double arr[][] = matrix.getArr();
-
-        if (a == b) {
-            return;
-        }
-
-        double[] temp = arr[a];
-        arr[a] = arr[b];
-        arr[b] = temp;
     }
 
     public static int[] getNumOfRowsWithZeroOnDiagonal(Matrix matrix) {
-        if (matrix == null || matrix.getArr() == null) {
-            return null;
-        }
+        int[] rows = null;
 
-        double arr[][] = matrix.getArr();
-        int countOfRows = 0;
+        if (matrix != null || matrix.getMatrix() != null) {
+            int countOfRows = 0;
 
-        for (int i = 0; i < arr.length; i++) {
-            if (isRowWithZeroOnDiagonal(matrix, i)) {
-                countOfRows++;
+            for (int i = 0; i < matrix.getRowCount(); i++) {
+                if (isRowWithZeroOnDiagonal(matrix, i)) {
+                    countOfRows++;
+                }
+            }
+
+            rows = new int[countOfRows];
+            countOfRows = 0;
+
+            for (int i = 0; i < matrix.getColumnCount(); i++) {
+                if (isRowWithZeroOnDiagonal(matrix, i)) {
+                    rows[countOfRows] = i;
+                    countOfRows++;
+                }
             }
         }
-
-        int[] rows = new int[countOfRows];
-        countOfRows = 0;
-
-        for (int i = 0; i < arr.length; i++) {
-            if (isRowWithZeroOnDiagonal(matrix, i)) {
-                rows[countOfRows] = i;
-                countOfRows++;
-            }
-        }
-
         return rows;
     }
 
     public static boolean isRowWithZeroOnDiagonal(Matrix matrix, int i) {
-        if (matrix == null || matrix.getArr() == null) {
-            return false;
+        if (matrix != null && matrix.getMatrix() != null) {
+            if (!(i < 0) && !(matrix.getColumnCount() <= i)) {
+                return matrix.getElement(i, i) == 0;
+            }
         }
-
-        double[][] arr = matrix.getArr();
-
-        if ((i < 0) || (arr[0].length <= i)) {
-            return false;
-        }
-
-        return arr[i][i] == 0;
+        return false;
     }
 
     public static double maxElemInRow(Matrix matrix, int i) {
-        if (matrix == null || matrix.getArr() == null) {
-            return 0.0;
-        }
+        double max = Double.MIN_VALUE;
 
-        double[][] arr = matrix.getArr();
+        if (matrix != null && matrix.getMatrix() != null) {
+            if (!(i < 0) && !(matrix.getColumnCount() <= i)) {
+                max = matrix.getElement(i, 0);
 
-        if ((i < 0) || (arr[0].length <= i)) {
-            return 0.0;
-        }
-
-        double max = arr[i][0];
-
-        for (int j = 0; j < arr.length; j++) {
-            if (arr[i][j] > max) {
-                max = arr[i][j];
+                for (int j = 0; j < matrix.getRowCount(); j++) {
+                    if (matrix.getElement(i, j) > max) {
+                        max = matrix.getElement(i, j);
+                    }
+                }
             }
         }
-
         return max;
     }
 }

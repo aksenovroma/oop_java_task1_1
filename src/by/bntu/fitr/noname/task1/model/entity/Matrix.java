@@ -1,83 +1,89 @@
 package by.bntu.fitr.noname.task1.model.entity;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public class Matrix {
-    private int row;
-    private int col;
-    private double arr[][];
+    private static final int ROW_DEFAULT = 2;
+    private static final int COLUMN_DEFAULT = 2;
+
+    private double[][] matrix;
 
     public Matrix() {
+        matrix = new double[ROW_DEFAULT][COLUMN_DEFAULT];
     }
 
     public Matrix(int row, int col) {
-        this.row = row;
-        this.col = col;
-        this.arr = new double[row][col];
-    }
-
-    public Matrix(double[][] arr) {
-        if (arr != null) {
-            this.row = arr.length;
-            this.col = arr[0].length;
-            this.arr = arr;
+        if (row >= 0 && col >= 0) {
+            this.matrix = new double[row][col];
         }
     }
 
-    public Matrix(int row, int col, double[][] arr) {
-        this.row = row;
-        this.col = col;
-        this.arr = arr;
+    public Matrix(double[][] matrix) {
+        if (matrix != null) {
+            this.matrix = matrix;
+        }
     }
 
-    public int getRow() {
-        return row;
+    public double[][] getMatrix() {
+        return matrix;
     }
 
-    public void setRow(int row) {
-        this.row = row;
+    public void setMatrix(double[][] matrix) {
+        if (matrix != null) {
+            this.matrix = matrix;
+        }
     }
 
-    public int getCol() {
-        return col;
+    public int getRowCount() {
+        return matrix.length;
     }
 
-    public void setCol(int col) {
-        this.col = col;
+    public int getColumnCount() {
+        return matrix[0].length;
     }
 
-    public double[][] getArr() {
-        return arr;
+    public double[] getRow(int index) {
+        if (index >= 0 && index < matrix.length){
+            return matrix[index];
+        }
+        return null;
     }
 
-    public void setArr(double[][] arr) {
-        this.arr = arr;
+    public double getElement(int rowIndex, int columnIndex) {
+        return matrix[rowIndex][columnIndex];
+    }
+
+    public void setElement(int rowIndex, int columnIndex, double element) {
+        matrix[rowIndex][columnIndex] = element;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Matrix matrix = (Matrix) o;
-        return row == matrix.row &&
-                col == matrix.col &&
-                Arrays.equals(arr, matrix.arr);
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Matrix matrix1 = (Matrix) o;
+        return Arrays.equals(matrix, matrix1.matrix);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(row, col);
-        result = 31 * result + Arrays.hashCode(arr);
-        return result;
+        return Arrays.hashCode(matrix);
     }
 
     @Override
     public String toString() {
-        return "Matrix{" +
-                "row=" + row +
-                ", col=" + col +
-                ", arr=" + Arrays.toString(arr) +
-                '}';
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (double[] matrix1 : matrix) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                stringBuilder.append(matrix1[j]).append(" ");
+            }
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
     }
 }
