@@ -110,7 +110,7 @@ public class MatrixHandler {
     }
 
     public static double maxElemInRow(Matrix matrix, int i) {
-        double max = Double.MIN_VALUE;
+        double max = 0.0;
 
         if (matrix != null && matrix.getMatrix() != null) {
             if (!(i < 0) && !(matrix.getColumnCount() <= i)) {

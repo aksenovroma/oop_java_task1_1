@@ -6,11 +6,9 @@ public class Matrix {
     private static final int ROW_DEFAULT = 2;
     private static final int COLUMN_DEFAULT = 2;
 
-    private double[][] matrix;
+    private double[][] matrix = new double[ROW_DEFAULT][COLUMN_DEFAULT];
 
-    public Matrix() {
-        matrix = new double[ROW_DEFAULT][COLUMN_DEFAULT];
-    }
+    public Matrix() {}
 
     public Matrix(int row, int col) {
         if (row >= 0 && col >= 0) {
